@@ -7,15 +7,15 @@
             <v-btn @click="clearCheckbox">クリア</v-btn>
         </v-row>
         <v-row>
-            <v-col><v-checkbox v-model="selected" value="red"  label="赤"></v-checkbox></v-col>
-            <v-col><v-checkbox v-model="selected" value="blue" label="青"></v-checkbox></v-col>
-            <v-col><v-checkbox v-model="selected" value="star" label="星付き"></v-checkbox></v-col>
-            <v-col><v-checkbox v-model="selected" value="led"  label="LED点灯"></v-checkbox></v-col>
+            <v-col><v-checkbox v-model="selectedWire" value="red"  label="赤"></v-checkbox></v-col>
+            <v-col><v-checkbox v-model="selectedWire" value="blue" label="青"></v-checkbox></v-col>
+            <v-col><v-checkbox v-model="selectedWire" value="star" label="星付き"></v-checkbox></v-col>
+            <v-col><v-checkbox v-model="selectedWire" value="led"  label="LED点灯"></v-checkbox></v-col>
         </v-row>
         <v-row>
-            <v-col><v-checkbox v-model="selected" value="odd"      label="シリアルナンバーの最後の数字が偶数か"></v-checkbox></v-col>
-            <v-col><v-checkbox v-model="selected" value="parallel" label="パラレルポート"></v-checkbox></v-col>
-            <v-col><v-checkbox v-model="selected" value="battery"  label="バッテリーが二本以上"></v-checkbox></v-col>
+            <v-col><v-checkbox v-model="selectedCase" value="odd"      label="シリアルナンバーの最後の数字が偶数か"></v-checkbox></v-col>
+            <v-col><v-checkbox v-model="selectedCase" value="parallel" label="パラレルポート"></v-checkbox></v-col>
+            <v-col><v-checkbox v-model="selectedCase" value="battery"  label="バッテリーが二本以上"></v-checkbox></v-col>
         </v-row>
     </v-container>
 </template>
