@@ -89,7 +89,7 @@ export default {
                 }
 
                 // (青、LED) or (青、星、LED) パラレルポートあり
-                if(!existsWire(["red"]) &&　existsCase("parallel"))
+                if(!existsWire(["red"]) && existsCase("parallel"))
                 {
                     result = CUT;
                 }
@@ -111,7 +111,7 @@ export default {
                 }
             }
 
-            return DONT_CUT;
+            return result;
         }
     },
 
