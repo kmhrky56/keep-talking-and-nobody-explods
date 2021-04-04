@@ -31,71 +31,87 @@ export default {
 
     computed:{
         cut(){
-            if( this.selected.length == 0 || ( this.selected.length == 1 && this.selected.find(e => e == "star") ) || 
-                (this.selected.length == 3 && this.selected.every(e => e == "star" || e == "led" || e == "battery")) )
+            const existsWire = t => this.selectedWire.some(e => e == t.some(type => e == type));
+            const existsCase = c => this.selectedCase.some(e => e == c);
+
+            const CUT = "切る";
+            const DONT_CUT = "切らない";
+
+            let result = DONT_CUT;
+
+            // 白のみ
+            if(this.selectedWire.length == 0)
             {
-                return "切る";
+                result = CUT;
             }
 
-            if(this.selected.find(e => e == "red") && this.selected.length >= 2)
+            // 星のみ
+            if(this.selectedWire.length == 1 && existsWire(["star"]))
             {
-                if(this.selected.length == 2 && this.selected.some(e => e == "star" || e == "odd"))
-                {
-                    return "切る";
-                }
-
-                if(this.selected.some(e => e == "battery"))
-                {
-                    if(this.selected.length == 3 && this.selected.some(e => e == "led"))
-                    {
-                        return "切る";
-                    }
-
-                    if(this.selected.length == 4 && this.selected.some(e => e == "led") && this.some(e => e == "star"))
-                    {
-                        return "切る";
-                    }
-                }
+                result = CUT;
             }
 
-            if(this.selected.find(e => e=="blue"))
+            // 星、LED バッテリー2本以上
+            if(this.selectedWire.length == 2 && existsWire(["star", "led"] && existsCase(["battery"])))
             {
-                if(this.selected.length == 2 && this.selected.some(e => e == "odd"))
-                {
-                    return "切る";
-                }
-
-                if(this.selected.some(e => e == "parallel"))
-                {
-                    if( (this.selected.length == 3 && this.selected.some( e => e == "led") ) ||
-                        (this.selected.length == 4 && this.selected.some( e => e == "led") && this.selected.some(e => e == "star") ) 
-                    )
-                    {
-                        return "切る";
-                    }
-                }
-
+                result = CUT;
             }
 
-            if(this.selected.find(e => e == "blue") && this.selected.find(e => e == "red"))
+            // 赤
+            if(existsWire(["red"]))
             {
-                if(this.selected.length == 3 && this.selected.some(e => e == "odd"))
+                // 赤のみ シリアルナンバー末尾が偶数
+                if(this.selectedWire.length == 1 && existsCase(["odd"]))
                 {
-                    return "切る";
+                    result = CUT;
                 }
 
-                if(this.selected.length == 4 && this.selected.some(e => e == "star") && this.selected.some(e => e == "parallel"))
+                // 赤、星
+                if(this.selectedWire.length == 2 && existsWire(["star"]))
                 {
-                    return "切る";
+                    result = CUT;
                 }
 
-                if(this.selected.length == 4 && this.selected.some(e => e == "led") && this.selected.some(e => e == "odd") )
+                // (赤、LED) or (赤、星、LED) バッテリー2本以上
+                if(!existsWire(["blue"]) && existsCase("battery"))
                 {
-                    return "切る";
+                    result = CUT;
                 }
             }
 
-            return "切らない";
+            // 青
+            if(existsWire(["blue"]))
+            {
+                // 青のみ シリアルナンバー末尾が偶数
+                if(this.selectedWire.length == 1 && existsCase(["odd"]))
+                {
+                    result = CUT;
+                }
+
+                // (青、LED) or (青、星、LED) パラレルポートあり
+                if(!existsWire(["red"]) &&　existsCase("parallel"))
+                {
+                    result = CUT;
+                }
+            }
+
+            // 赤、青
+            if(existsWire(["red", "blue"]))
+            {
+                // (赤、青) or (赤、青、LED) シリアルナンバー末尾が偶数
+                if(!existsWire(["star"]) && existsCase(["odd"]))
+                {
+                    result = CUT;
+                }
+
+                // 赤、青、星 パラレルポートあり
+                if(this.selectedWire.length == 3 && existsWire(["star"]) && existsCase(["parallel"]))
+                {
+                    result = CUT;
+                }
+            }
+
+            return DONT_CUT;
         }
     },
 
