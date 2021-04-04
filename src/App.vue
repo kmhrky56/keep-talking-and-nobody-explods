@@ -1,76 +1,50 @@
 <template>
   <v-app>
-    <div class="wrap">
-      <div class="sequence_wire">
-        <v-container>
-          <v-row justify="center">赤いワイヤの出現回数</v-row>
-          <v-row>
-            <v-col>ワイヤの出現回数</v-col>
-            <v-col>切るべき接続先</v-col>
-          </v-row>
-          <v-row v-for="(color, index) in sequenceWire.red" :key="index" :class="{activeColor:color.isColor}" @click="color.isColor = !color.isColor">
-            <v-col>{{index + 1}}番目の出現（赤）</v-col>
-            <v-col>{{color.text}}</v-col>
-          </v-row>
-        </v-container>
-        <v-container>
-          <v-row justify="center">青いワイヤの出現回数</v-row>
-          <v-row>
-            <v-col>ワイヤの出現回数</v-col>
-            <v-col>切るべき接続先</v-col>
-          </v-row>
-          <v-row v-for="(color, index) in sequenceWire.blue" :key="index" :class="{activeColor:color.isColor}" @click="color.isColor = !color.isColor">
-            <v-col>{{index + 1}}番目の出現（青）</v-col>
-            <v-col>{{color.text}}</v-col>
-          </v-row>
-        </v-container>
-        <v-container>
-          <v-row justify="center">黒いワイヤの出現回数</v-row>
-          <v-row>
-            <v-col>ワイヤの出現回数</v-col>
-            <v-col>切るべき接続先</v-col>
-          </v-row>
-          <v-row v-for="(color, index) in sequenceWire.black" :key="index" :class="{activeColor:color.isColor}" @click="color.isColor = !color.isColor">
-            <v-col>{{index + 1}}番目の出現（黒）</v-col>
-            <v-col>{{color.text}}</v-col>
-          </v-row>
-        </v-container>
-      </div>
-    </div>
+    <v-tabs v-model="tab">
+      <v-tabs-slider color="yellow"></v-tabs-slider>
+      <v-tab v-for="item in tab_item" :key="item">
+        {{item}}
+      </v-tab>
+    </v-tabs>
+    <v-tabs-items v-model="tab">
+      <v-tab-item>
+        <SequenceWire></SequenceWire>
+      </v-tab-item>
+      <v-tab-item>
+        <ComplicatedWire></ComplicatedWire>
+      </v-tab-item>
+      <v-tab-item>
+      </v-tab-item>
+    </v-tabs-items>
   </v-app>
 </template>
 
 <script>
+import SequenceWire from '@/views/SequenceWire.vue';
+import ComplicatedWire from '@/views/ComplicatedWire.vue';
 
 export default {
   name: "App",
 
   components: {
+    SequenceWire,
+    ComplicatedWire
   },
 
   data: () => ({
-    sequenceWire:{
-      red:[   {isColor:false,text:"C"},{isColor:false, text:"B"},{isColor:false,text:"A"},
-              {isColor:false,text:"AかC"},{isColor:false, text:"B"},{isColor:false,text:"AかC"},
-              {isColor:false,text:"AかBかC"},{isColor:false,text:"AかB"},{isColor:false, text:"B"}],
-      blue:[  {isColor:false, text:"B"},{isColor:false,text:"AかC"},{isColor:false, text:"B"},
-              {isColor:false,text:"A"},{isColor:false, text:"B"},{isColor:false, text:"BかC"},
-              {isColor:false,text:"C"},{isColor:false,text:"AかC"},{isColor:false,text:"A"}],
-      black:[ {isColor:false,text:"AかBかC"},{isColor:false,text:"AかC"},{isColor:false, text:"B"},
-              {isColor:false,text:"AかC"},{isColor:false, text:"B"},{isColor:false, text:"BかC"},
-              {isColor:false,text:"AかB"},{isColor:false,text:"C"},{isColor:false,text:"C"}]
-    }
+    tab:null,
+    tab_item:[
+      "順番ワイヤ","複雑ワイヤ"
+    ],
   }),
+
+  methods:{
+  }
 };
 </script>
 
-<style scoped>
- .sequence_wire{
-   display: flex;
- }
-
- .activeColor{
-   color: white;
-   background-color: #444444;
- }
+<style>
+.v-tabs{
+  flex:unset !important;
+}
 </style>
