@@ -24,7 +24,8 @@ export default {
     name:"ComplicatedWire",
     data(){
         return {
-            selected:[],
+            selectedCase:[],
+            selectedWire:[],
         };
     },
 
@@ -99,8 +100,12 @@ export default {
     },
 
     methods:{
-        clearCheckbox(){
-            this.selected = [];
+        clearCheckboxCase(){
+            this.selectedCase = [];
+        },
+
+        clearCheckboxWire(){
+            this.selectedCaseWire = [];
         }
     },
 }    
